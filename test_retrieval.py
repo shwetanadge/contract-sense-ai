@@ -4,7 +4,7 @@ from src.retrieval.embedder import get_query_embedding
 from src.retrieval.vector_store import load_bm25, dense_search
 from src.retrieval.retrieve import retrieve
 
-# Load chunks for BM25
+# Load chunks for BM25.
 print("Loading chunks for BM25...")
 text = extract_text("data/sample_contracts/gdpr.pdf")
 chunks = chunk_text(text, "GDPR")
