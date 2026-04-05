@@ -6,3 +6,4 @@ load_dotenv()
 api_key = os.getenv("GROQ_API_KEY")
 
 print(f"My Groq API key is: {api_key}")
+#changes have been made to this file
