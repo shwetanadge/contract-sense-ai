@@ -3,6 +3,7 @@ from src.ingestion.pdf_parser import extract_text
 from src.ingestion.chunker import chunk_text
 from src.retrieval.embedder import get_embeddings
 
+#Fixed chunks testing
 print("Extracting and chunking GDPR...")
 text = extract_text("data/sample_contracts/gdpr.pdf")
 chunks = chunk_text(text, "GDPR")
