@@ -16,6 +16,7 @@ start = time.time()
 embeddings = get_embeddings(test_chunks)
 end = time.time()
 
+#Show Embeddings process
 print(f"Time taken: {end - start:.2f} seconds")
 print(f"Embedding shape: {embeddings.shape}")
 print(f"First embedding (first 5 numbers): {embeddings[0][:5]}")
