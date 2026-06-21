@@ -1,5 +1,6 @@
 import pdfplumber
 import re
+import os
 
 def extract_text(pdf_path):
     """
