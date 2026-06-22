@@ -4,7 +4,7 @@ def chunk_text(text, source_name):
     """
     Splits cleaned text into overlapping chunks with metadata.
     """
-    # Create the splitter
+    # Create the splitter with overlap
     splitter = RecursiveCharacterTextSplitter(
         chunk_size=512,
         chunk_overlap=50,
