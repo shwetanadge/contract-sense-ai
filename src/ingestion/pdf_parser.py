@@ -23,7 +23,7 @@ def extract_text(pdf_path):
 
 def clean_text(text):
     """
-    Cleans raw PDF text by fixing common issues.
+    Cleans raw PDF text by fixing common issues. 
     """
     # Fix broken hyphenation (words split across lines)
     text = re.sub(r'-\n', '', text)
