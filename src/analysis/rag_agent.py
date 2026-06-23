@@ -45,6 +45,7 @@ def generate_node(state: AgentState):
     # Build prompt
     prompt = f"""You are a compliance assistant. Answer using ONLY the provided regulation excerpts below.
 Cite sources as [1], [2], [3].
+
 If the answer is not in the excerpts, say exactly: "This question is outside the scope of the loaded regulations."
 
 Regulation excerpts:
