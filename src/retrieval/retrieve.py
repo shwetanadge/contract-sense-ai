@@ -13,7 +13,7 @@ def retrieve(query, top_k=3):
     # Step 1 - embed query
     query_embedding = get_query_embedding(query)
     
-    # Step 2 - hybrid search
+    # Step 2 - hybrid search query
     candidate_docs, candidate_metas = hybrid_search(
         query, query_embedding, k=10
     )
