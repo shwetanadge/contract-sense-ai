@@ -23,4 +23,4 @@ def retrieve(query, top_k=3):
         query, candidate_docs, candidate_metas, top_k=top_k
     )
     
-    return top_docs, top_metas, top_scores
+    return top_docs, top_metas, top_scores, top_docs
