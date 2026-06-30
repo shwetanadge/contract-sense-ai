@@ -18,9 +18,9 @@ def retrieve(query, top_k=3):
         query, query_embedding, k=10
     )
     
-    # Step 3 - rerank
+    # Step 3 - rerank the retrieved data
     top_docs, top_metas, top_scores = rerank(
         query, candidate_docs, candidate_metas, top_k=top_k
     )
     
-    return top_docs, top_metas, top_scores, top_docs
+    return top_docs, top_metas, top_scores
