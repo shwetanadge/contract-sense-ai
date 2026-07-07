@@ -24,6 +24,7 @@ for question in questions:
     print(f"A: {answer}")
     print(f"Citations: {citations}")
 
+# test questions
 # Verify SQL logs
 print(f"\n{'='*60}")
 print("=== QUERY LOG ===")
