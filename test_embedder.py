@@ -11,6 +11,7 @@ chunks = chunk_text(text, "GDPR")
 # Test with 10 chunks
 test_chunks = [c["text"] for c in chunks[:10]]
 
+# Embedding 10 chunks
 print("Embedding 10 chunks...")
 start = time.time()
 embeddings = get_embeddings(test_chunks)
