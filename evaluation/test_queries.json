@@ -1,0 +1,102 @@
+[
+    {
+        "question": "When must a Data Protection Officer be appointed?",
+        "expected_answer": "Under GDPR Article 37, a DPO must be appointed when processing is carried out by a public authority, when core activities require large scale systematic monitoring of data subjects, or when core activities involve large scale processing of special categories of data.",
+        "regulation": "GDPR"
+    },
+    {
+        "question": "What is the deadline for reporting a personal data breach to the supervisory authority?",
+        "expected_answer": "Under GDPR Article 33, the controller must notify the supervisory authority without undue delay and where feasible not later than 72 hours after becoming aware of the breach.",
+        "regulation": "GDPR"
+    },
+    {
+        "question": "What are the lawful bases for processing personal data under GDPR?",
+        "expected_answer": "Under GDPR Article 6, lawful bases include consent, contract performance, legal obligation, vital interests, public task, and legitimate interests.",
+        "regulation": "GDPR"
+    },
+    {
+        "question": "What rights does a data subject have regarding their personal data?",
+        "expected_answer": "Under GDPR Articles 15-22, data subjects have the right to access, rectification, erasure, restriction of processing, data portability, and the right to object.",
+        "regulation": "GDPR"
+    },
+    {
+        "question": "What is the maximum fine for a serious GDPR violation?",
+        "expected_answer": "Under GDPR Article 83, the maximum fine for serious violations is 20 million euros or 4 percent of total worldwide annual turnover of the preceding financial year, whichever is higher.",
+        "regulation": "GDPR"
+    },
+    {
+        "question": "What is the right to erasure under GDPR?",
+        "expected_answer": "Under GDPR Article 17, the data subject has the right to obtain erasure of personal data without undue delay when data is no longer necessary, consent is withdrawn, or data has been unlawfully processed.",
+        "regulation": "GDPR"
+    },
+    {
+        "question": "What is a Data Protection Impact Assessment and when is it required?",
+        "expected_answer": "Under GDPR Article 35, a DPIA is required when processing is likely to result in high risk to individuals, particularly when using new technologies or systematic profiling.",
+        "regulation": "GDPR"
+    },
+    {
+        "question": "What information must be provided to data subjects when collecting their data?",
+        "expected_answer": "Under GDPR Articles 13 and 14, controllers must provide identity and contact details, purposes and legal basis for processing, retention periods, and information about data subject rights.",
+        "regulation": "GDPR"
+    },
+    {
+        "question": "What is the definition of personal data under GDPR?",
+        "expected_answer": "Under GDPR Article 4, personal data means any information relating to an identified or identifiable natural person who can be identified directly or indirectly by reference to an identifier.",
+        "regulation": "GDPR"
+    },
+    {
+        "question": "What are the conditions for valid consent under GDPR?",
+        "expected_answer": "Under GDPR Article 7, consent must be freely given, specific, informed and unambiguous. The controller must be able to demonstrate that consent was given and withdrawal must be as easy as giving consent.",
+        "regulation": "GDPR"
+    },
+    {
+        "question": "What is the retention period for accounting records under HGB?",
+        "expected_answer": "Under HGB Section 257, accounting records must be retained for 10 years for books, inventories, balance sheets and financial statements, and 6 years for commercial letters and other documents.",
+        "regulation": "HGB"
+    },
+    {
+        "question": "What is the obligation of a merchant regarding bookkeeping under HGB?",
+        "expected_answer": "Under HGB Section 238, every merchant is obliged to keep books of account and to record their transactions and the state of their assets in accordance with the principles of proper bookkeeping.",
+        "regulation": "HGB"
+    },
+    {
+        "question": "What is the deadline for preparing annual financial statements under HGB?",
+        "expected_answer": "Under HGB Section 243, the annual financial statements must be prepared within the time customary for a properly managed business, generally within the first three months of the following financial year.",
+        "regulation": "HGB"
+    },
+    {
+        "question": "What does HGB require regarding the principle of prudence?",
+        "expected_answer": "Under HGB Section 252, the principle of prudence requires that foreseeable risks and losses must be taken into account but unrealised gains must not be recognised.",
+        "regulation": "HGB"
+    },
+    {
+        "question": "What is the going concern principle under HGB?",
+        "expected_answer": "Under HGB Section 252, the going concern principle requires that the valuation of assets assumes the business will continue as a going concern unless there are legal or factual reasons against continuation.",
+        "regulation": "HGB"
+    },
+    {
+        "question": "What are the requirements for an inventory under HGB?",
+        "expected_answer": "Under HGB Section 240, merchants must take an inventory of all assets and liabilities at the beginning of operations and at the end of each financial year.",
+        "regulation": "HGB"
+    },
+    {
+        "question": "What is the definition of a merchant under HGB?",
+        "expected_answer": "Under HGB Section 1, a merchant is anyone who operates a commercial business. A commercial business is any business enterprise unless by its nature or scope it does not require a commercially organised business.",
+        "regulation": "HGB"
+    },
+    {
+        "question": "What does HGB require regarding the consistency principle?",
+        "expected_answer": "Under HGB Section 252, the consistency principle requires that accounting policies adopted for the opening balance sheet must be retained in subsequent financial statements.",
+        "regulation": "HGB"
+    },
+    {
+        "question": "What is the obligation regarding commercial letters under HGB?",
+        "expected_answer": "Under HGB Section 257, commercial letters that are received or copies of sent letters must be retained for 6 years.",
+        "regulation": "HGB"
+    },
+    {
+        "question": "What information must be included in commercial letters under HGB?",
+        "expected_answer": "Under HGB Section 37a, commercial letters must include the legal form, registered office, registration court and registration number, and all managing directors of the business.",
+        "regulation": "HGB"
+    }
+]

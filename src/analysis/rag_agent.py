@@ -19,7 +19,7 @@ class AgentState(TypedDict):
 # Initialize LLM
 llm = ChatGroq(
     api_key=os.getenv("GROQ_API_KEY"),
-    model_name="llama-3.1-8b-instant"
+    model_name="openai/gpt-oss-20b"
 )
 
 # Node 1 - Retrieve
