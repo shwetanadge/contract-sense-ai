@@ -51,7 +51,7 @@
     },
     {
         "question": "What is the retention period for accounting records under HGB?",
-        "expected_answer": "Under HGB Section 257, accounting records must be retained for 10 years for books, inventories, balance sheets and financial statements, and 6 years for commercial letters and other documents.",
+        "expected_answer": "Under HGB Section 257(4), books, inventories, opening balance sheets, annual and consolidated financial statements and management reports must be retained for 10 years, accounting vouchers for 8 years, and commercial letters and all other documents listed in paragraph 1 for 6 years.",
         "regulation": "HGB"
     },
     {
