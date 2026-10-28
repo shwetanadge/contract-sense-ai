@@ -33,9 +33,13 @@ def clean_text(text):
 
     # Strip leading/trailing whitespace from each line
     lines = [line.strip() for line in text.split('\n')]
+    # Remove website footer lines that leak into the text
+    lines = [line for line in lines if "gesetze-im-internet.de" not in line]
 
-    # Remove very short lines (page numbers, headers, footers)
-    lines = [line for line in lines if len(line) > 10]
+    # Remove very short lines (page numbers, headers, footers),
+    # but keep article/section headings such as "Article 37" or "§ 257"
+    heading = re.compile(r"^(Article \d+[a-z]?|§ ?\d+[a-z]?)$")
+    lines = [line for line in lines if len(line) > 10 or heading.match(line)]
 
     # Join everything back together
     cleaned = '\n'.join(lines)

@@ -9,7 +9,7 @@ from src.storage.db import log_query
 
 load_dotenv()
 
-RELEVANCE_THRESHOLD = -1.8   # measured on the multilingual reranker
+RELEVANCE_THRESHOLD = -1.0   # measured on the multilingual reranker
 OUT_OF_SCOPE_MSG = "This question is outside the scope of the loaded regulations."
 
 # Define agent state
@@ -28,7 +28,7 @@ llm = ChatGroq(
 # Node 1 - Retrieve
 def retrieve_node(state: AgentState):
     question = state["question"]
-    docs, metas, scores = retrieve(question, top_k=3)
+    docs, metas, scores = retrieve(question, top_k=5, add_siblings=True)
     chunks = [
         {"text": doc, "metadata": meta, "score": score}
         for doc, meta, score in zip(docs, metas, scores)
@@ -49,7 +49,7 @@ def generate_node(state: AgentState):
     
     # Build prompt
     prompt = f"""You are a compliance assistant. Answer using ONLY the provided regulation excerpts below.
-Cite sources as [1], [2], [3].
+Cite sources as [1], [2], etc., using only the numbers of excerpts you actually used.
 
 If the answer is not in the excerpts, say exactly: "This question is outside the scope of the loaded regulations."
 
@@ -62,7 +62,11 @@ Answer:"""
     
     response = llm.invoke(prompt)
     answer = response.content
-    
+
+    # A refusal should not show sources
+    if OUT_OF_SCOPE_MSG.lower().rstrip(".") in answer.lower():
+        citations = []
+
     return {"answer": answer, "citations": citations}
 
 def route_after_retrieval(state: AgentState):
