@@ -61,7 +61,7 @@
     },
     {
         "question": "What is the deadline for preparing annual financial statements under HGB?",
-        "expected_answer": "Under HGB Section 243, the annual financial statements must be prepared within the time customary for a properly managed business, generally within the first three months of the following financial year.",
+        "expected_answer": "Under HGB Section 243(3), the annual financial statements must be prepared within the time that corresponds to a proper course of business. For corporations, Section 264(1) requires them to be prepared in the first three months of the financial year for the previous financial year; small corporations may take longer if this corresponds to a proper course of business, but within the first six months.",
         "regulation": "HGB"
     },
     {
@@ -86,7 +86,7 @@
     },
     {
         "question": "What does HGB require regarding the consistency principle?",
-        "expected_answer": "Under HGB Section 252, the consistency principle requires that accounting policies adopted for the opening balance sheet must be retained in subsequent financial statements.",
+        "expected_answer": "Under HGB Section 252(1) no. 6, the valuation methods applied to the previous annual financial statements must be retained.",
         "regulation": "HGB"
     },
     {
