@@ -9,6 +9,9 @@ from src.storage.db import log_query
 
 load_dotenv()
 
+RELEVANCE_THRESHOLD = -1.8   # measured on the multilingual reranker
+OUT_OF_SCOPE_MSG = "This question is outside the scope of the loaded regulations."
+
 # Define agent state
 class AgentState(TypedDict):
     question: str
@@ -26,8 +29,10 @@ llm = ChatGroq(
 def retrieve_node(state: AgentState):
     question = state["question"]
     docs, metas, scores = retrieve(question, top_k=3)
-    chunks = [{"text": doc, "metadata": meta} 
-              for doc, meta in zip(docs, metas)]
+    chunks = [
+        {"text": doc, "metadata": meta, "score": score}
+        for doc, meta, score in zip(docs, metas, scores)
+    ]
     return {"retrieved_chunks": chunks}
 
 # Node 2 - Generate
@@ -60,18 +65,32 @@ Answer:"""
     
     return {"answer": answer, "citations": citations}
 
+def route_after_retrieval(state: AgentState):
+    chunks = state["retrieved_chunks"]
+    if not chunks or chunks[0]["score"] < RELEVANCE_THRESHOLD:
+        return "out_of_scope"
+    return "generate"
+
+def out_of_scope_node(state: AgentState):
+    return {"answer": OUT_OF_SCOPE_MSG, "citations": []}
+
 # Build the graph
 def build_graph():
     graph = StateGraph(AgentState)
-    
+
     graph.add_node("retrieve", retrieve_node)
     graph.add_node("generate", generate_node)
-    
-    graph.add_edge("retrieve", "generate")
-    graph.add_edge("generate", END)
-    
+    graph.add_node("out_of_scope", out_of_scope_node)
+
     graph.set_entry_point("retrieve")
-    
+    graph.add_conditional_edges(
+        "retrieve",
+        route_after_retrieval,
+        {"generate": "generate", "out_of_scope": "out_of_scope"},
+    )
+    graph.add_edge("generate", END)
+    graph.add_edge("out_of_scope", END)
+
     return graph.compile()
 
 # Compile app

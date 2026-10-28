@@ -6,7 +6,8 @@ reranker = None
 def get_reranker():
     global reranker
     if reranker is None:
-        reranker = CrossEncoder("cross-encoder/ms-marco-MiniLM-L-6-v2")
+        # reranker = CrossEncoder("cross-encoder/ms-marco-MiniLM-L-6-v2") # old English only model
+        reranker = CrossEncoder("cross-encoder/mmarco-mMiniLMv2-L12-H384-v1")
     return reranker
 
 def rerank(query, candidate_docs, candidate_metas, top_k=3):
@@ -21,6 +22,7 @@ def rerank(query, candidate_docs, candidate_metas, top_k=3):
     # Sort by score
     ranked = sorted(
         zip(scores, candidate_docs, candidate_metas),
+        key=lambda x: x[0],
         reverse=True
     )
     

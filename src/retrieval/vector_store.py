@@ -67,6 +67,19 @@ def ensure_bm25():
     ]
     load_bm25(chunks)
 
+_chunk_lookup = None
+
+def get_chunk(source, chunk_id):
+    """Find one stored chunk by its source and number (used for neighbours)."""
+    global _chunk_lookup
+    ensure_bm25()
+    if _chunk_lookup is None:
+        _chunk_lookup = {
+            (c["metadata"]["source"], c["metadata"]["chunk_id"]): c
+            for c in bm25_chunks
+        }
+    return _chunk_lookup.get((source, chunk_id))
+
 def dense_search(query_embedding, k=10):
     client = get_client()
     collection = client.get_collection("compliance_regs")

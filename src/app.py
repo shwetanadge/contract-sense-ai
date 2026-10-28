@@ -4,9 +4,7 @@ import os
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from src.ingestion.pdf_parser import extract_text
-from src.ingestion.chunker import chunk_text
-from src.retrieval.vector_store import load_bm25
+from src.retrieval.vector_store import ensure_bm25
 from src.analysis.rag_agent import ask
 
 # Page config
@@ -19,9 +17,7 @@ st.set_page_config(
 # Load resources once
 @st.cache_resource
 def load_resources():
-    text = extract_text("data/sample_contracts/gdpr.pdf")
-    chunks = chunk_text(text, "GDPR")
-    load_bm25(chunks)
+    ensure_bm25()
     return True
 
 # Initialize
@@ -62,7 +58,7 @@ if "messages" not in st.session_state:
 for message in st.session_state.messages:
     with st.chat_message(message["role"]):
         st.markdown(message["content"])
-        if message["role"] == "assistant" and "citations" in message:
+        if message["role"] == "assistant" and message.get("citations"):
             with st.expander("📎 Sources"):
                 for citation in message["citations"]:
                     st.markdown(f"- {citation}")
@@ -80,9 +76,10 @@ if sample_question:
         with st.spinner("Searching regulations..."):
             answer, citations = ask(sample_question)
         st.markdown(answer)
-        with st.expander("📎 Sources"):
-            for citation in citations:
-                st.markdown(f"- {citation}")
+        if citations:
+            with st.expander("📎 Sources"):
+                for citation in citations:
+                    st.markdown(f"- {citation}")
 
     st.session_state.messages.append({
         "role": "assistant",
@@ -103,9 +100,10 @@ if prompt := st.chat_input("Ask a compliance question..."):
         with st.spinner("Searching regulations..."):
             answer, citations = ask(prompt)
         st.markdown(answer)
-        with st.expander("📎 Sources"):
-            for citation in citations:
-                st.markdown(f"- {citation}")
+        if citations:
+            with st.expander("📎 Sources"):
+                for citation in citations:
+                    st.markdown(f"- {citation}")
 
     st.session_state.messages.append({
         "role": "assistant",
