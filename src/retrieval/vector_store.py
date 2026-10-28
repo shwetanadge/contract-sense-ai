@@ -1,4 +1,5 @@
 import chromadb
+from chromadb.config import Settings
 from rank_bm25 import BM25Okapi
 from src.retrieval.embedder import get_embeddings
 
@@ -7,7 +8,10 @@ bm25_index = None
 bm25_chunks = None
 
 def get_client():
-    return chromadb.PersistentClient(path="./chroma_db")
+    return chromadb.PersistentClient(
+        path="./chroma_db",
+        settings=Settings(anonymized_telemetry=False)
+    )
 
 def build_index(chunks, embeddings):
     global bm25_index, bm25_chunks
@@ -49,6 +53,20 @@ def load_bm25(chunks):
     tokenized = [c['text'].lower().split() for c in chunks]
     bm25_index = BM25Okapi(tokenized)
 
+def ensure_bm25():
+    """Build the BM25 index from ChromaDB if it isn't in memory yet."""
+    global bm25_index, bm25_chunks
+    if bm25_index is not None:
+        return
+    client = get_client()
+    collection = client.get_collection("compliance_regs")
+    data = collection.get(include=["documents", "metadatas"])
+    chunks = [
+        {"text": doc, "metadata": meta}
+        for doc, meta in zip(data["documents"], data["metadatas"])
+    ]
+    load_bm25(chunks)
+
 def dense_search(query_embedding, k=10):
     client = get_client()
     collection = client.get_collection("compliance_regs")
@@ -60,6 +78,7 @@ def dense_search(query_embedding, k=10):
 
 def bm25_search(query, k=10):
     global bm25_index, bm25_chunks
+    ensure_bm25()
     tokenized_query = query.lower().split()
     scores = bm25_index.get_scores(tokenized_query)
     top_indices = sorted(range(len(scores)), 
