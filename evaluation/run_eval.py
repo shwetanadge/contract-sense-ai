@@ -14,9 +14,9 @@ from src.analysis.rag_agent import (
     ask_with_context, llm, RELEVANCE_THRESHOLD, OUT_OF_SCOPE_MSG,
 )
 
-RUN_NAME = "baseline"
-CSV_PATH = "evaluation/eval_per_question.csv"
-MD_PATH = "evaluation/eval_results.md"
+RUN_NAME = sys.argv[1] if len(sys.argv) > 1 else "baseline"
+CSV_PATH = f"evaluation/eval_per_question_{RUN_NAME}.csv"
+MD_PATH = f"evaluation/eval_results_{RUN_NAME}.md"
 METRICS = ["faithfulness", "context_recall", "correctness"]
 
 with open("evaluation/test_queries.json", encoding="utf-8") as f:
@@ -82,7 +82,7 @@ with mlflow.start_run(run_name=RUN_NAME):
         "judge_model": JUDGE_MODEL,
         "chunks_to_llm": 5,
         "same_article_neighbours": True,
-        "query_expansion": True,
+        "glossary_terms": "DPO, DPIA, DSAR (HGB entry removed)",
         "relevance_threshold": RELEVANCE_THRESHOLD,
         "num_questions": len(df),
     })

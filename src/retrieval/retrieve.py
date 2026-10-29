@@ -1,6 +1,7 @@
 from src.retrieval.embedder import get_query_embedding
 from src.retrieval.vector_store import hybrid_search, get_chunk
 from src.retrieval.reranker import rerank
+from src.retrieval.translate import to_german
 import re
 
 # Abbreviations users type that the regulation texts spell out in full
@@ -8,7 +9,6 @@ ABBREVIATIONS = {
     "DPO": "data protection officer",
     "DPIA": "data protection impact assessment",
     "DSAR": "data subject access request",
-    "HGB": "Handelsgesetzbuch",
 }
 
 def expand_abbreviations(query):
@@ -38,7 +38,7 @@ def add_same_article_neighbours(docs, metas, scores, anchors=2, max_total=8):
                 scores.append(float("nan"))   # not ranked, added for context
     return docs, metas, scores
 
-def retrieve(query, top_k=3, expand_top=5, add_siblings=False):
+def retrieve(query, top_k=3, expand_top=5, add_siblings=False, translate=False):
     """
     Retrieval pipeline:
     1. Embed query
@@ -54,6 +54,19 @@ def retrieve(query, top_k=3, expand_top=5, add_siblings=False):
     candidate_docs, candidate_metas = hybrid_search(
         query, query_embedding, k=30
     )
+
+    if translate:
+        german = to_german(query)
+        if german and german != query:
+            g_docs, g_metas = hybrid_search(
+                german, get_query_embedding(german), k=30
+            )
+            seen = set(candidate_docs)
+            for d, m in zip(g_docs, g_metas):
+                if d not in seen:
+                    seen.add(d)
+                    candidate_docs.append(d)
+                    candidate_metas.append(m)
 
     # First pass: find the best few chunks
     _, first_metas, _ = rerank(

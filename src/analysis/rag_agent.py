@@ -100,17 +100,31 @@ def build_graph():
 # Compile app
 app = build_graph()
 
-# Main ask function
-def ask(question):
+
+# Full result, used by the evaluation script
+def ask_with_context(question):
     start = time.time()
-    
+
     result = app.invoke({"question": question})
-    
+
     latency = time.time() - start
     answer = result["answer"]
     citations = result["citations"]
-    
+    chunks = result.get("retrieved_chunks", [])
+
     # Log to SQLite
     log_query(question, answer, latency)
-    
-    return answer, citations
+
+    return {
+        "answer": answer,
+        "citations": citations,
+        "contexts": [c["text"] for c in chunks],
+        "top_score": chunks[0]["score"] if chunks else None,
+        "latency": latency,
+    }
+
+
+# Main ask function (used by the app)
+def ask(question):
+    result = ask_with_context(question)
+    return result["answer"], result["citations"]

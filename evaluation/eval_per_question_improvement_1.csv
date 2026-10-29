@@ -1,0 +1,151 @@
+question,regulation,refused,faithfulness,context_recall,correctness,top_score,latency_s,answer
+When must a Data Protection Officer be appointed?,GDPR,False,1.0,1.0,1.0,0.414591908454895,18.8,"A data protection officer (DPO) must be designated in the following circumstances:
+
+1. **Public authorities or bodies** – the controller or processor is a public authority or body, except courts acting in their judicial capacity.  
+2. **Large‑scale monitoring** – the core activities of the controller or processor involve processing that, by virtue of its nature, scope or purpose, requires regular and systematic monitoring of data subjects on a large scale.  
+3. **Large‑scale special data** – the core activities of the controller or processor involve large‑scale processing of special categories of data (Article 9) or personal data relating to criminal convictions and offences (Article 10).  
+
+In addition, a single DPO may be appointed for a group of undertakings if it is easily accessible from each establishment, and a single DPO may be appointed for a public authority or body. These provisions are set out in Article 37 of the GDPR.【2】【3】"
+What is the deadline for reporting a personal data breach to the supervisory authority?,GDPR,False,1.0,1.0,0.5,7.263102054595947,4.3,The deadline is **no later than 72 hours after becoming aware of the breach**【1】【2】
+What are the lawful bases for processing personal data under GDPR?,GDPR,False,1.0,1.0,1.0,9.245402336120605,4.6,"Under GDPR, lawful bases for processing personal data are set out in Article 6:  
+(a) the data subject has given consent for one or more specific purposes;  
+(b) the processing is necessary for the performance of a contract to which the data subject is party or to take steps at the request of the data subject before a contract;  
+(c) the processing is necessary for compliance with a legal obligation;  
+(d) the processing is necessary to protect the vital interests of the data subject or another natural person;  
+(e) the processing is necessary for the performance of a task carried out in the public interest or in the exercise of official authority vested in the controller;  
+(f) the processing is necessary for the purposes of the legitimate interests pursued by the controller or by a third party.  
+
+Sources: [2], [6]"
+What rights does a data subject have regarding their personal data?,GDPR,False,1.0,0.6666666666666666,1.0,10.202410697937012,3.7,"The regulation grants a data subject the following rights over their personal data:
+
+| Right | What it allows the data subject to do | Source |
+|-------|---------------------------------------|--------|
+| **Right of access** – to know whether their data are being processed and to obtain the data and related information | (a) purposes of processing; (b) categories of data; (c) recipients or categories of recipients; (d) storage period or criteria for it; (e) right to request rectification or erasure or restriction; (f) right to lodge a complaint | [2], [6] |
+| **Right to rectification** – to have inaccurate or incomplete data corrected or completed | [5] |
+| **Right to data portability** – to receive their data in a structured, commonly used, machine‑readable format and to transmit it to another controller | [3] |
+| **Right to object** – to object to processing for direct marketing (including profiling related to marketing) | [4] |
+| **Right to request erasure or restriction** – (included in Article 15(6)(e)) | [6] |
+| **Right to lodge a complaint** – with a supervisory authority | [6] |
+
+These rights enable the data subject to control, correct, transfer, and limit the processing of their personal data."
+What is the maximum fine for a serious GDPR violation?,GDPR,False,1.0,1.0,1.0,0.04631797969341278,3.4,"The maximum fine that can be imposed for a serious violation of the GDPR is **up to 20 million EUR, or, for an undertaking, up to 4 % of its total worldwide annual turnover in the preceding financial year—whichever amount is higher**【1】."
+What is the right to erasure under GDPR?,GDPR,False,1.0,1.0,1.0,10.151494979858398,3.7,"**Right to erasure (Article 17 GDPR)**  
+
+The data subject has the right to obtain from the controller the erasure of personal data concerning them without undue delay, and the controller is obliged to erase such data without undue delay when one of the following grounds applies:  
+
+* the data are no longer necessary for the purposes for which they were collected;  
+* the data subject withdraws consent on which the processing is based and no other legal ground for processing exists;  
+* the data subject objects to the processing and no overriding legitimate ground justifies the processing;  
+* the data have been unlawfully processed.  
+
+The controller must also take reasonable steps, including technical measures, to inform other controllers that the data subject has requested erasure of any links to, or copies or replication of, those personal data.  
+
+This right does not apply, or is limited, where the processing is necessary for:  
+
+* exercising the right of freedom of expression and information;  
+* compliance with a legal obligation that requires processing under Union or Member State law;  
+* the performance of a task carried out in the public interest or in the exercise of official authority;  
+* public‑health interests, archiving for public interest, scientific or historical research or statistical purposes;  
+* compliance with a legal obligation in Union or Member State law; or  
+* the offer of information‑society services.  
+
+These provisions are found in Article 17 of the GDPR.  
+
+[1] [3] [4] [5] [6]"
+What is a Data Protection Impact Assessment and when is it required?,GDPR,False,1.0,1.0,1.0,8.641671180725098,5.6,"A Data Protection Impact Assessment (DPIA) is an assessment of the impact of the envisaged processing operations on the protection of personal data. It includes an evaluation of the risks to the rights and freedoms of data subjects and the measures to address those risks, such as safeguards, security measures and mechanisms to ensure compliance with the Regulation while respecting the rights and legitimate interests of data subjects and other persons concerned.  
+[5], [3]
+
+A DPIA is required when the processing is likely to result in a high risk to the rights and freedoms of natural persons. This includes, but is not limited to:  
+
+* a systematic and extensive evaluation of personal aspects relating to natural persons that is based on automated processing or profiling, especially when it produces legal effects or significantly affects the natural person;  
+* processing on a large scale of special categories of data (Article 9(1)), biometric data, data on criminal convictions and offences (Article 10), or other data on which the supervisory authority considers a high risk;  
+* systematic monitoring of a publicly accessible area on a large scale, particularly when using optic‑electronic devices or other large‑scale monitoring operations.  
+[5], [6]
+
+In some Member States, the requirement to carry out a DPIA may be deemed necessary only if the Member State considers it necessary before processing activities begin. A review of the DPIA is required if there is a change in the risk represented by the processing operations.  
+[4] (paragraph 11)"
+What information must be provided to data subjects when collecting their data?,GDPR,False,1.0,1.0,1.0,9.457566261291504,4.9,"When personal data are collected from a data subject, the controller must provide the following information at the time the data are obtained:
+
+1. **Identity and contact details of the controller** and, where applicable, of the controller’s representative;  
+2. **Contact details of the data protection officer**, where applicable;  
+3. **The period for which the personal data will be stored,** or, if that is not possible, the **criteria used to determine that period**;  
+4. **The existence of the right to request from the controller access to, rectification of, or erasure of personal data,** and the **consequences of such processing** for the data subject;  
+5. **Whether the provision of personal data is a statutory or contractual requirement,** or a requirement necessary to enter into a contract, **whether the data subject is obliged to provide the data,** and the **possible consequences of failure to provide such data**;  
+6. **The existence of automated decision‑making, including profiling,** and, where applicable, **meaningful information about the logic involved, the significance, and the envisaged consequences**;  
+7. **The purposes of the processing** for which the personal data are intended and the **legal basis for the processing**;  
+8. Where the processing is based on legitimate interests, **the legitimate interests pursued by the controller or by a third party**;  
+9. **The recipients or categories of recipients** of the personal data, if any;  
+10. **Whether the controller intends to transfer personal data to a third country or international organisation,** the existence or absence of an adequacy decision, or the reference to appropriate safeguards and how to obtain them;  
+11. **The data subject’s rights** – including restriction of processing, the right to object, the right to data portability, the right to withdraw consent at any time (without affecting the lawfulness of prior processing), and the right to lodge a complaint with a supervisory authority;  
+12. **If the controller intends to further process the personal data for a purpose other than that for which they were collected,** the controller must provide information on that other purpose **before** that further processing occurs.
+
+These requirements apply unless the data subject already has the information.  
+
+Sources: [1], [2], [3], [5], [6], [7], [8]"
+What is the definition of personal data under GDPR?,GDPR,False,1.0,1.0,1.0,10.616536140441895,19.6,"Under the GDPR, “personal data” is defined as any information that relates to an identified or identifiable natural person (the “data subject”). An identifiable natural person is one who can be identified, directly or indirectly, for example by reference to an identifier such as a name, an identification number, location data, an online identifier, or other factors that uniquely point to that person. [1][3]"
+What are the conditions for valid consent under GDPR?,GDPR,False,1.0,0.6666666666666666,1.0,7.536197662353516,5.3,"Valid consent under the GDPR must satisfy the following conditions:
+
+1. **Demonstrable consent** – The controller must be able to prove that the data subject has given consent.  
+   [1]
+
+2. **Clear and distinguishable presentation** – If consent is requested in a written declaration that also covers other matters, the request must be presented in a way that is clearly distinguishable from those other matters.  
+   [1]
+
+3. **Freely given** – Consent must be freely given. The controller must consider whether the performance of a contract (or the provision of a service) is conditional on consent to the processing of personal data that is not necessary for that contract.  
+   [2]
+
+4. **Specific, informed, and intelligible** – The consent request must be intelligible and easily accessible, using clear and plain language. The data subject must be informed of the consent before giving it.  
+   [3]
+
+5. **Right to withdraw** – The data subject has the right to withdraw consent at any time, and withdrawal must be as easy as giving consent. Withdrawal does not affect the lawfulness of processing that occurred before it.  
+   [3]
+
+6. **Scope and purpose** – Consent should cover all processing activities carried out for the same purpose(s). If there are multiple purposes, consent must be obtained for all of them.  
+   [4]
+
+7. **Electronic requests** – When consent is obtained by electronic means, the request must be clear, concise, and not unnecessarily disruptive to the use of the service.  
+   [4]
+
+8. **Children** – For information‑society services, the general contract law of the Member State applies to the validity, formation, or effect of a contract involving a child.  
+   [5]"
+What is the retention period for accounting records under HGB?,HGB,False,1.0,0.3333333333333333,0.5,1.850637435913086,5.9,"Under the HGB, accounting records must be kept for ten years. [2]"
+What is the obligation of a merchant regarding bookkeeping under HGB?,HGB,False,1.0,1.0,1.0,8.763117790222168,3.9,"A merchant must keep books that record all commercial transactions and the state of the business in accordance with the principles of proper bookkeeping. The books must be prepared so that a qualified third party can obtain an overview of the transactions and the company’s situation within a reasonable time, and the transactions must be traceable in their origin and settlement. Additionally, the merchant must retain copies of commercial correspondence that match the originals. The entries in the books must be complete, correct, timely, and orderly, and any abbreviations or symbols used must have a clear, unambiguous meaning.  
+
+Sources: [1], [2], [4]"
+What is the deadline for preparing annual financial statements under HGB?,HGB,False,0.0,0.0,0.0,5.387657642364502,4.8,Under the HGB the annual financial statements and the accompanying management report must be prepared within four months after the end of the fiscal year. [1]
+What does HGB require regarding the principle of prudence?,HGB,False,1.0,0.0,0.0,2.2184579372406006,7.4,"HGB requires that, in the valuation of capital investments for employees and employers, the **principle of prudence** must be taken into account.  Specifically, § 341d mandates that such investments be valued at their time value while applying the prudence principle; §§ 341b and 341c are not applicable in this respect. [1]"
+What is the going concern principle under HGB?,HGB,True,,1.0,0.0,-1.078403115272522,2.9,This question is outside the scope of the loaded regulations.
+What are the requirements for an inventory under HGB?,HGB,False,1.0,1.0,0.5,3.149103879928589,6.7,"Under the German Commercial Code (HGB) an inventory (Inventar) must be prepared and kept in accordance with the following requirements:
+
+1. **Timing** – The inventory must be established at the end of each fiscal year and the period for its completion may not exceed twelve months. It must be created within a period that corresponds to an orderly business routine.  
+   *[4]*
+
+2. **Content and Valuation** – All assets and liabilities of the business (e.g., real estate, receivables, debts, cash, and other assets) must be recorded with their individual values.  
+   *[5]*
+
+3. **Physical vs. Alternative Methods** – A physical stock‑take is not mandatory if an alternative method that complies with the principles of proper bookkeeping can reliably determine the type, quantity and value of the assets. Such methods may include recognized mathematical‑statistical sampling techniques.  
+   *[1]*, *[2]*, *[6]*
+
+4. **Consistency of Value** – The value reported in the inventory must be equivalent to that which would be obtained from a physical inventory.  
+   *[1]*
+
+5. **Special Cases** – Certain low‑value assets (e.g., regularly replaced equipment or raw materials of negligible overall value) may be recorded at a constant quantity and value if their overall worth is insignificant, provided the size of their stock is maintained.  
+   *[4]*
+
+These provisions collectively define the minimum requirements for creating and maintaining an inventory under HGB."
+What is the definition of a merchant under HGB?,HGB,False,1.0,1.0,1.0,6.636471748352051,4.2,"A merchant (Kaufmann) is a person who operates a commercial enterprise (Handelsgewerbe). The definition is given in HGB § 1:  
+> ""Kaufmann im Sinne dieses Gesetzbuchs ist, wer ein Handelsgewerbe betreibt. Handelsgewerbe ist jeder Gewerbebetrieb, es sei denn, dass das Unternehmen nach Art oder Umfang einen in kaufmännischer Weise eingerichteten Geschäftsbetrieb nicht erfordert.""【1】"
+What does HGB require regarding the consistency principle?,HGB,False,1.0,0.0,0.0,0.8127344250679016,17.8,"HGB verlangt, dass die Form der Darstellung – insbesondere die Gliederung der aufeinanderfolgenden Bilanzen und Gewinn‑ und Verlustrechnungen – beibehalten wird, sofern nicht in Ausnahmefällen wegen besonderer Umstände Abweichungen erforderlich sind. Solche Abweichungen sind im Anhang anzugeben und zu begründen. [4]"
+What is the obligation regarding commercial letters under HGB?,HGB,False,1.0,0.0,0.5,5.830808162689209,4.6,"The HGB requires that a trader keep a faithful reproduction of every commercial letter that has been sent. This reproduction may be a copy, imprint, transcript or any other representation of the wording on a written, visual or digital medium, and it must match the original. [1]"
+What information must be included in commercial letters under HGB?,HGB,False,1.0,0.8,0.5,5.688670635223389,5.9,"Commercial letters (Geschäftsbriefe) must contain the following identifying information:
+
+* The company’s name (Firma) and its registered place of business (Sitz).  
+* The register court (Registergericht) where the company is entered.  
+* The registration number under which the company is listed in the commercial register.  
+
+For a merchant, the letter must additionally show the location of the merchant’s trading place.  
+If the company has no natural‑person partner, the letter must also include the partners’ names (or, where applicable, the information required by § 35a GmbHG or § 80 AktG).  
+
+These requirements are set out in § 37a and § 125 of the HGB.  
+[1] § 37a (merchant case)  
+[2] § 125 (company case)"
