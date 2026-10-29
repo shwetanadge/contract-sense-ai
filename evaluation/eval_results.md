@@ -1,39 +1,50 @@
-# RAG Evaluation Results — Baseline
+# RAG Evaluation Results: baseline
 
-## Parameters
-- Chunk size: 512
-- Chunk overlap: 50
-- Embedding model: multilingual-e5-large
-- LLM: llama-3.1-8b-instant
-- Top K: 3
+Metrics are RAGAs-style LLM-as-judge scores (0 to 1), implemented with Groq.
 
-## Scores
-- Citation Rate: 0.500
-- Answer Rate: 0.500
-- Completeness Score: 0.704
+## Settings
+- Answer model: openai/gpt-oss-20b
+- Judge model: openai/gpt-oss-120b
+- Embeddings: intfloat/multilingual-e5-large
+- Reranker: cross-encoder/mmarco-mMiniLMv2-L12-H384-v1
+- Chunking: article/section-aware, 512 chars, 50 overlap, heading prefix
+- Relevance threshold: -1.0
 
-## Sample Results
+## Scores (average over all questions)
+- faithfulness: 0.836
+- context_recall: 0.673
+- correctness: 0.650
+- median latency: 4.4s
+- real questions refused: 2
 
-### Q1: When must a Data Protection Officer be appointed?
-**Answer:** A data protection officer must be appointed in the following circumstances:
+## By regulation
 
-* By a controller or processor, or by an association or other body that represents categories of controllers or processors, particularly when required by Union or Member State law. [2]  
-* By a group of undertakings, provid...
+| regulation   |   faithfulness |   context_recall |   correctness |
+|:-------------|---------------:|-----------------:|--------------:|
+| GDPR         |          0.888 |            0.933 |          0.85 |
+| HGB          |          0.771 |            0.413 |          0.45 |
 
-### Q2: What is the deadline for reporting a personal data breach to the supervisory authority?
-**Answer:** The controller must notify the supervisory authority **within 72 hours** of becoming aware of the breach. [1][2]...
+## Per question
 
-### Q3: What are the lawful bases for processing personal data under GDPR?
-**Answer:** The GDPR allows processing of personal data only when it is based on one of the lawful bases set out in the Regulation. According to the loaded excerpts, these bases include:
-
-* **Consent** – processing is lawful if it is carried out on the basis of the data‑subject’s consent. [1]  
-* **Legitimate l...
-
-### Q4: What rights does a data subject have regarding their personal data?
-**Answer:** The regulation gives a data subject the following rights concerning their personal data:
-
-- **Right of access** – The data subject may request and receive personal data that has been collected about them, including health‑related information such as diagnoses and examination results, and must be abl...
-
-### Q5: What is the maximum fine for a serious GDPR violation?
-**Answer:** The maximum fine for a serious GDPR violation is up to €20 million, or, for an undertaking, up to 4 % of its total worldwide annual turnover of the preceding financial year, whichever is higher. [1]...
-
+| question                                                     | regulation   |   faithfulness |   context_recall |   correctness |
+|:-------------------------------------------------------------|:-------------|---------------:|-----------------:|--------------:|
+| When must a Data Protection Officer be appointed?            | GDPR         |           1    |             1    |           1   |
+| What is the deadline for reporting a personal data breach to | GDPR         |           0    |             1    |           0.5 |
+| What are the lawful bases for processing personal data under | GDPR         |           1    |             1    |           1   |
+| What rights does a data subject have regarding their persona | GDPR         |           1    |             0.67 |           0.5 |
+| What is the maximum fine for a serious GDPR violation?       | GDPR         |           1    |             1    |           1   |
+| What is the right to erasure under GDPR?                     | GDPR         |           1    |             1    |           1   |
+| What is a Data Protection Impact Assessment and when is it r | GDPR         |           1    |             1    |           1   |
+| What information must be provided to data subjects when coll | GDPR         |           1    |             1    |           1   |
+| What is the definition of personal data under GDPR?          | GDPR         |           1    |             1    |           1   |
+| What are the conditions for valid consent under GDPR?        | GDPR         |           0.88 |             0.67 |           0.5 |
+| What is the retention period for accounting records under HG | HGB          |           0.5  |             0.33 |           0.5 |
+| What is the obligation of a merchant regarding bookkeeping u | HGB          |           1    |             1    |           1   |
+| What is the deadline for preparing annual financial statemen | HGB          |           0    |             0    |           0   |
+| What does HGB require regarding the principle of prudence?   | HGB          |           1    |             0    |           0   |
+| What is the going concern principle under HGB?               | HGB          |         nan    |             0    |           0   |
+| What are the requirements for an inventory under HGB?        | HGB          |           1    |             1    |           1   |
+| What is the definition of a merchant under HGB?              | HGB          |           1    |             1    |           1   |
+| What does HGB require regarding the consistency principle?   | HGB          |         nan    |             0    |           0   |
+| What is the obligation regarding commercial letters under HG | HGB          |           1    |             0    |           0.5 |
+| What information must be included in commercial letters unde | HGB          |           0.67 |             0.8  |           0.5 |

@@ -1,105 +1,124 @@
 import json
-import time
-import mlflow
 import os
-from dotenv import load_dotenv
-from src.ingestion.pdf_parser import extract_text
-from src.ingestion.chunker import chunk_text
-from src.retrieval.vector_store import load_bm25
-from src.analysis.rag_agent import ask
+import sys
+import time
 
-load_dotenv()
+import mlflow
+import pandas as pd
 
-# Load BM25
-print("Loading BM25 index...")
-text = extract_text("data/sample_contracts/gdpr.pdf")
-chunks = chunk_text(text, "GDPR")
-load_bm25(chunks)
+# Make "src" and "evaluation" importable when run as a script
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-# Load test questions
-with open("evaluation/test_queries.json", "r") as f:
-    test_queries = json.load(f)
+from evaluation.judge import faithfulness, context_recall, correctness, JUDGE_MODEL
+from src.analysis.rag_agent import (
+    ask_with_context, llm, RELEVANCE_THRESHOLD, OUT_OF_SCOPE_MSG,
+)
 
-# Run evaluation
-print(f"Running evaluation on {len(test_queries)} questions...")
+RUN_NAME = "baseline"
+CSV_PATH = "evaluation/eval_per_question.csv"
+MD_PATH = "evaluation/eval_results.md"
+METRICS = ["faithfulness", "context_recall", "correctness"]
 
-questions = []
-answers = []
-expected_answers = []
-contexts = []
+with open("evaluation/test_queries.json", encoding="utf-8") as f:
+    items = json.load(f)
 
-for i, item in enumerate(test_queries):
-    print(f"Question {i+1}/{len(test_queries)}: {item['question'][:50]}...")
-    
+rows = []
+for i, item in enumerate(items, start=1):
+    print(f"[{i}/{len(items)}] {item['question'][:65]}")
     try:
-        answer, citations = ask(item['question'])
-        questions.append(item['question'])
-        answers.append(answer)
-        expected_answers.append(item['expected_answer'])
-        contexts.append(citations)
-        time.sleep(1)  # avoid rate limiting
+        r = ask_with_context(item["question"])
     except Exception as e:
-        print(f"Error on question {i+1}: {e}")
+        print("   ERROR while answering:", str(e)[:100])
         continue
 
-print(f"\nSuccessfully evaluated {len(questions)} questions")
+    answer = r["answer"]
+    context = "\n\n".join(r["contexts"])
+    refused = OUT_OF_SCOPE_MSG.lower().rstrip(".") in answer.lower()
 
-# MLflow tracking
+    # A refusal on an in-scope question is a failure; skip the judge for it
+    faith = None if refused else faithfulness(answer, context)
+    recall = 0.0 if not r["contexts"] else context_recall(item["expected_answer"], context)
+    correct = 0.0 if refused else correctness(answer, item["expected_answer"])
+
+    rows.append({
+        "question": item["question"],
+        "regulation": item["regulation"],
+        "refused": refused,
+        "faithfulness": faith,
+        "context_recall": recall,
+        "correctness": correct,
+        "top_score": r["top_score"],
+        "latency_s": round(r["latency"], 1),
+        "answer": answer,
+    })
+    pd.DataFrame(rows).to_csv(CSV_PATH, index=False, encoding="utf-8")  # save as we go
+    print(f"   faith={faith}  recall={recall}  correct={correct}  refused={refused}")
+    time.sleep(1)
+
+df = pd.DataFrame(rows)
+means = df[METRICS].mean()
+by_reg = df.groupby("regulation")[METRICS].mean()
+median_latency = df["latency_s"].median()
+refusals = int(df["refused"].sum())
+
+print("\n=== BASELINE RESULTS ===")
+print(means.round(3).to_string())
+print("\nBy regulation:")
+print(by_reg.round(3).to_string())
+print(f"\nMedian latency: {median_latency:.1f}s   Refusals of real questions: {refusals}")
+print("\nWeakest questions (lowest correctness):")
+print(df.sort_values("correctness")[["question", "correctness", "context_recall"]].head(5).to_string(index=False))
+
+# ---- MLflow ----
 mlflow.set_experiment("compliance-rag-p1")
+with mlflow.start_run(run_name=RUN_NAME):
+    mlflow.log_params({
+        "chunk_size": 512,
+        "chunk_overlap": 50,
+        "chunking": "article/section-aware with heading prefix",
+        "embedding_model": "intfloat/multilingual-e5-large",
+        "reranker_model": "cross-encoder/mmarco-mMiniLMv2-L12-H384-v1",
+        "llm_model": getattr(llm, "model_name", "unknown"),
+        "judge_model": JUDGE_MODEL,
+        "chunks_to_llm": 5,
+        "same_article_neighbours": True,
+        "query_expansion": True,
+        "relevance_threshold": RELEVANCE_THRESHOLD,
+        "num_questions": len(df),
+    })
+    metrics = {k: float(v) for k, v in means.items() if pd.notna(v)}
+    metrics["median_latency_s"] = float(median_latency)
+    metrics["refusals"] = refusals
+    for reg, row in by_reg.iterrows():
+        for m in METRICS:
+            if pd.notna(row[m]):
+                metrics[f"{m}_{reg}"] = float(row[m])
+    mlflow.log_metrics(metrics)
 
-with mlflow.start_run(run_name="baseline"):
-    # Log parameters
-    mlflow.log_param("chunk_size", 512)
-    mlflow.log_param("chunk_overlap", 50)
-    mlflow.log_param("embedding_model", "multilingual-e5-large")
-    mlflow.log_param("llm_model", "llama-3.3-70b-versatile")
-    mlflow.log_param("top_k", 3)
-    mlflow.log_param("num_questions", len(questions))
+    # ---- Markdown report ----
+    with open(MD_PATH, "w", encoding="utf-8") as f:
+        f.write(f"# RAG Evaluation Results: {RUN_NAME}\n\n")
+        f.write("Metrics are RAGAs-style LLM-as-judge scores (0 to 1), implemented with Groq.\n\n")
+        f.write("## Settings\n")
+        f.write(f"- Answer model: {getattr(llm, 'model_name', 'unknown')}\n")
+        f.write(f"- Judge model: {JUDGE_MODEL}\n")
+        f.write("- Embeddings: intfloat/multilingual-e5-large\n")
+        f.write("- Reranker: cross-encoder/mmarco-mMiniLMv2-L12-H384-v1\n")
+        f.write("- Chunking: article/section-aware, 512 chars, 50 overlap, heading prefix\n")
+        f.write(f"- Relevance threshold: {RELEVANCE_THRESHOLD}\n\n")
+        f.write("## Scores (average over all questions)\n")
+        for k, v in means.items():
+            f.write(f"- {k}: {v:.3f}\n")
+        f.write(f"- median latency: {median_latency:.1f}s\n")
+        f.write(f"- real questions refused: {refusals}\n\n")
+        f.write("## By regulation\n\n")
+        f.write(by_reg.round(3).to_markdown() + "\n\n")
+        f.write("## Per question\n\n")
+        short = df[["question", "regulation", "faithfulness", "context_recall", "correctness"]].copy()
+        short["question"] = short["question"].str.slice(0, 60)
+        f.write(short.round(2).to_markdown(index=False) + "\n")
 
-    # Calculate simple scores manually
-    # (avoiding RAGAs OpenAI dependency)
-    
-    # Score 1: Answer length score (proxy for completeness)
-    avg_answer_length = sum(len(a) for a in answers) / len(answers)
-    completeness_score = min(avg_answer_length / 500, 1.0)
-    
-    # Score 2: Citation rate (how often citations appear)
-    cited_answers = sum(1 for a in answers if '[' in a)
-    citation_rate = cited_answers / len(answers)
-    
-    # Score 3: Guardrail accuracy
-    # Question 11 onwards are HGB - check if answered
-    answered_count = sum(1 for a in answers 
-                        if 'outside the scope' not in a)
-    answer_rate = answered_count / len(answers)
-    
-    # Log metrics
-    mlflow.log_metric("citation_rate", round(citation_rate, 3))
-    mlflow.log_metric("answer_rate", round(answer_rate, 3))
-    mlflow.log_metric("completeness_score", round(completeness_score, 3))
-    
-    print(f"\n=== EVALUATION RESULTS ===")
-    print(f"Citation Rate: {citation_rate:.3f}")
-    print(f"Answer Rate: {answer_rate:.3f}")
-    print(f"Completeness Score: {completeness_score:.3f}")
-    
-    # Save results to markdown
-    with open("evaluation/eval_results.md", "w", encoding="utf-8") as f:
-        f.write("# RAG Evaluation Results — Baseline\n\n")
-        f.write("## Parameters\n")
-        f.write("- Chunk size: 512\n")
-        f.write("- Chunk overlap: 50\n")
-        f.write("- Embedding model: multilingual-e5-large\n")
-        f.write("- LLM: llama-3.1-8b-instant\n")
-        f.write("- Top K: 3\n\n")
-        f.write("## Scores\n")
-        f.write(f"- Citation Rate: {citation_rate:.3f}\n")
-        f.write(f"- Answer Rate: {answer_rate:.3f}\n")
-        f.write(f"- Completeness Score: {completeness_score:.3f}\n\n")
-        f.write("## Sample Results\n\n")
-        for i, (q, a) in enumerate(zip(questions[:5], answers[:5])):
-            f.write(f"### Q{i+1}: {q}\n")
-            f.write(f"**Answer:** {a[:300]}...\n\n")
-    
-    print("\nResults saved to evaluation/eval_results.md")
-    print("MLflow run complete!")
+    mlflow.log_artifact(CSV_PATH)
+    mlflow.log_artifact(MD_PATH)
+
+print(f"\nSaved {CSV_PATH} and {MD_PATH}. MLflow run '{RUN_NAME}' logged.")
