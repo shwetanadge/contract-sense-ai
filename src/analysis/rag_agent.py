@@ -9,7 +9,7 @@ from src.storage.db import log_query
 
 load_dotenv()
 
-RELEVANCE_THRESHOLD = -1.0   # measured on the multilingual reranker
+RELEVANCE_THRESHOLD = -2.5   # re-measured: real questions >= -1.08, off-topic <= -3.95 (tax questions reach the prompt guardrail)
 OUT_OF_SCOPE_MSG = "This question is outside the scope of the loaded regulations."
 
 # Define agent state
@@ -50,6 +50,7 @@ def generate_node(state: AgentState):
     # Build prompt
     prompt = f"""You are a compliance assistant. Answer using ONLY the provided regulation excerpts below.
 Cite sources as [1], [2], etc., using only the numbers of excerpts you actually used.
+Answer in the same language as the question, even if the excerpts are in another language.
 
 If the answer is not in the excerpts, say exactly: "This question is outside the scope of the loaded regulations."
 
